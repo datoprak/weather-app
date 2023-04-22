@@ -1,43 +1,43 @@
 const getAPIData = async searchedCity => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&appid=09b3804c0eabfc48a079f18eaebc53b9&units=metric`;
+  const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=1&appid=09b3804c0eabfc48a079f18eaebc53b9`;
   const url2 =
-    "https://api.openweathermap.org/data/2.5/weather?q=london&appid=09b3804c0eabfc48a079f18eaebc53b9&units=metric";
+    "https://api.openweathermap.org/geo/1.0/direct?q=london&limit=1&appid=09b3804c0eabfc48a079f18eaebc53b9";
   const response = await fetch(url2);
   const data = await response.json();
   console.log(data);
 
-  const lon = data.coord.lon;
-  const lat = data.coord.lat;
+  const lon = data[0].lon;
+  const lat = data[0].lat;
+  const name = data[0].name;
 
-  const dailyUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=09b3804c0eabfc48a079f18eaebc53b9&units=metric`;
-  const dailyResponse = await fetch(dailyUrl);
-  const dailyData = await dailyResponse.json();
-  const daily = dailyData.daily;
-  const current = dailyData.current;
+  const weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=09b3804c0eabfc48a079f18eaebc53b9&units=metric`;
+  const weatherResponse = await fetch(weatherUrl);
+  const weatherData = await weatherResponse.json();
+  console.log(weatherData);
+  const daily = weatherData.daily;
+  const current = weatherData.current;
   console.log(current);
-  //daily.shift();
 
-  processData(data, daily);
+  processData(name, current, daily);
 };
 
-const processData = (data, daily) => {
-  const city = data.name;
-  const temp = data.main.temp;
-  const feel = data.main.feels_like;
-  const humidity = data.main.humidity;
-  const description = data.weather[0].description;
-  const icon = data.weather[0].icon;
-  const main = data.weather[0].main;
-  const windSpeed = data.wind.speed;
-  const windDirection = data.wind.deg;
-  const cloud = data.clouds.all;
+const processData = (name, current, daily) => {
+  const city = name;
+  const temp = current.temp;
+  const humidity = current.humidity;
+  const description = current.weather[0].description;
+  const icon = current.weather[0].icon;
+  const main = current.weather[0].main;
+  const windSpeed = current.wind_speed;
+  const windDirection = current.wind_deg;
+  const cloud = current.clouds;
 
   console.log(daily);
-  const requiredDailyData = [];
+  const dailyData = [];
   daily.forEach(day => {
     let obj = {};
     const temp = day.temp.day;
-    const feel = day.feels_like.day;
+    const nightTemp = day.temp.night;
     const humidity = day.humidity;
     const description = day.weather[0].description;
     const icon = day.weather[0].icon;
@@ -47,7 +47,7 @@ const processData = (data, daily) => {
     const cloud = day.clouds;
     obj = {
       temp,
-      feel,
+      nightTemp,
       humidity,
       description,
       icon,
@@ -56,13 +56,12 @@ const processData = (data, daily) => {
       windDirection,
       cloud,
     };
-    requiredDailyData.push(obj);
+    dailyData.push(obj);
   });
 
   const requiredData = {
     city,
     temp,
-    feel,
     humidity,
     description,
     icon,
@@ -70,7 +69,7 @@ const processData = (data, daily) => {
     windSpeed,
     windDirection,
     cloud,
-    requiredDailyData,
+    dailyData,
   };
   console.log(requiredData);
 };
