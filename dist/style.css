@@ -1,3 +1,173 @@
-div {
-  color: red;
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: grid;
+  grid-template-areas:
+    "form form"
+    "city city"
+    "left-side right-side"
+    "daily daily";
+  padding: 32px 64px;
+  gap: 32px;
+  grid-template-rows: 1fr 1fr 2fr 3fr;
+}
+
+form {
+  grid-area: form;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+}
+
+form > input,
+form > button {
+  font-size: 2rem;
+  border: none;
+  background-color: steelblue;
+  height: 64px;
+  box-shadow: 3px 3px 4px 0px gray;
+}
+
+form > input {
+  outline: none;
+  border-radius: 16px 0 0 16px;
+  padding: 8px;
+  /* box-shadow: 0px 5px 8px 2px gray; */
+}
+
+form > input::placeholder {
+  color: black;
+  opacity: 0.5;
+}
+
+form > button {
+  border-radius: 0 16px 16px 0;
+  cursor: pointer;
+}
+
+button > .material-symbols-outlined {
+  font-size: 2rem;
+  padding: 8px;
+}
+
+.city-name {
+  grid-area: city;
+  justify-self: center;
+  font-size: 3rem;
+  font-family: "Pacifico", cursive;
+  letter-spacing: 0.4rem;
+}
+
+.left-side {
+  grid-area: left-side;
+  justify-self: center;
+  align-self: center;
+}
+
+.temp-container {
+  display: flex;
+  gap: 4px;
+}
+
+.temp-container > .celsius,
+.temp-container > .fahrenheit {
+  cursor: pointer;
+}
+
+.left-side > div,
+.left-side > div > span,
+.left-side > div > div {
+  font-size: 2rem;
+}
+
+.right-side {
+  grid-area: right-side;
+  justify-self: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.right-side > div {
+  font-size: 2rem;
+}
+
+.daily-side {
+  grid-area: daily;
+  justify-self: center;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  perspective: 1000px;
+}
+
+.daily-box {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: max-content;
+  border-radius: 32px;
+  box-shadow: 4px 5px 8px 2px gray;
+  opacity: 0;
+  transform-origin: top center;
+  /* animation: box 500ms ease-in-out forwards; */
+}
+
+.daily-box:nth-child(1) {
+  animation: box 300ms ease-in-out 100ms forwards;
+}
+.daily-box:nth-child(2) {
+  animation: box 300ms ease-in-out 200ms forwards;
+}
+.daily-box:nth-child(3) {
+  animation: box 300ms ease-in-out 300ms forwards;
+}
+.daily-box:nth-child(4) {
+  animation: box 300ms ease-in-out 400ms forwards;
+}
+.daily-box:nth-child(5) {
+  animation: box 300ms ease-in-out 500ms forwards;
+}
+.daily-box:nth-child(6) {
+  animation: box 300ms ease-in-out 600ms forwards;
+}
+.daily-box:nth-child(7) {
+  animation: box 300ms ease-in-out 700ms forwards;
+}
+.daily-box:nth-child(8) {
+  animation: box 300ms ease-in-out 800ms forwards;
+}
+
+@keyframes box {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+.two-temp {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.short-day-name,
+.daily-temp,
+.night-temp {
+  font-size: 1.5rem;
 }

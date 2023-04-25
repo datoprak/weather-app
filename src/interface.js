@@ -5,8 +5,8 @@ const getCity = e => {
     const requiredData = getAPIData("london");
     requiredData.then(data => {
       console.log(data);
-      loadInterface(data);
       createDaily(data);
+      loadInterface(data);
     });
   } else {
     e.preventDefault();
@@ -24,7 +24,7 @@ const getCity = e => {
 
 const loadInterface = data => {
   const cityName = document.querySelector(".city-name");
-  cityName.textContent = data.city;
+  cityName.textContent = data.city.toUpperCase();
   const currentIcon = document.querySelector(".current-icon");
   currentIcon.src = `https://openweathermap.org/img/wn/${data.icon}@2x.png`;
   currentIcon.alt = `${data.description}`;
@@ -59,6 +59,7 @@ const loadInterface = data => {
   } else if (data.windDirection >= 315) {
     wind.textContent = `Wind: ${data.windSpeed} km/h ↖`;
   }
+  changeColors(data.temp);
 };
 
 const createDaily = data => {
@@ -168,6 +169,59 @@ const changeSystem = e => {
     e.target.classList.add("active");
     const fahrenheit = document.querySelector(".fahrenheit");
     fahrenheit.classList.remove("active");
+  }
+};
+
+const changeColors = data => {
+  const input = document.querySelector("#searchbar");
+  const button = document.querySelector(".search-button");
+  const body = document.querySelector("body");
+  const dailyBox = document.querySelectorAll(".daily-box");
+
+  if (data <= 5) {
+    input.style.backgroundColor = "#567189";
+    button.style.backgroundColor = "#567189";
+    dailyBox.forEach(box => {
+      box.style.backgroundColor = "#567189";
+      box.style.animation = "none";
+      setTimeout(() => {
+        box.style.animation = "";
+      }, 10);
+    });
+    body.style.backgroundColor = "#FAD6A5";
+  } else if (data <= 10 && data > 5) {
+    input.style.backgroundColor = "#FFD8A9";
+    button.style.backgroundColor = "#FFD8A9";
+    dailyBox.forEach(box => {
+      box.style.backgroundColor = "#FFD8A9";
+      box.style.animation = "none";
+      setTimeout(() => {
+        box.style.animation = "";
+      }, 10);
+    });
+    body.style.backgroundColor = "#E38B29";
+  } else if (data <= 15 && data > 10) {
+    input.style.backgroundColor = "#F7A4A4";
+    button.style.backgroundColor = "#F7A4A4";
+    dailyBox.forEach(box => {
+      box.style.backgroundColor = "#F7A4A4";
+      box.style.animation = "none";
+      setTimeout(() => {
+        box.style.animation = "";
+      }, 10);
+    });
+    body.style.backgroundColor = "#B6E2A1";
+  } else if (data > 15) {
+    input.style.backgroundColor = "#9CFF2E";
+    button.style.backgroundColor = "#9CFF2E";
+    dailyBox.forEach(box => {
+      box.style.backgroundColor = "#9CFF2E";
+      box.style.animation = "none";
+      setTimeout(() => {
+        box.style.animation = "";
+      }, 10);
+    });
+    body.style.backgroundColor = "#2192FF";
   }
 };
 
