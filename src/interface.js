@@ -38,7 +38,9 @@ const loadInterface = data => {
   description.textContent =
     data.description.charAt(0).toUpperCase() + data.description.slice(1);
   const precipitation = document.querySelector(".precipitation");
-  precipitation.textContent = `Precipitation: ${data.dailyData[0].pop * 100}%`;
+  precipitation.textContent = `Precipitation: ${Math.round(
+    data.dailyData[0].pop * 100
+  )}%`;
   const humidity = document.querySelector(".humidity");
   humidity.textContent = `Humidity: ${data.humidity}%`;
   const wind = document.querySelector(".wind");
@@ -125,6 +127,8 @@ const loadDaily = data => {
       }
     });
   });
+  const input = document.querySelector("#searchbar");
+  input.value = "";
 };
 
 const changeSystem = e => {
@@ -132,6 +136,8 @@ const changeSystem = e => {
   const wind = document.querySelector(".wind");
   const dailyTemp = document.querySelectorAll(".daily-temp");
   const nightlyTemp = document.querySelectorAll(".night-temp");
+  const celsius = document.querySelector(".celsius");
+  const fahrenheit = document.querySelector(".fahrenheit");
 
   if (e.target.className === "fahrenheit") {
     temp.textContent = `${Math.round(temp.textContent * 1.8 + 32)}`;
@@ -142,7 +148,6 @@ const changeSystem = e => {
     nightlyTemp.forEach(t => {
       console.log(t.textContent);
       let f = t.textContent.slice(0, -1) * 1.8 + 32;
-      console.log(f);
       t.textContent = `${Math.round(f)}°`;
     });
     const windArr = wind.textContent.split(" ");
@@ -150,7 +155,6 @@ const changeSystem = e => {
     windSpeed = (windSpeed * 0.621371).toFixed(2);
     wind.textContent = `Wind: ${windSpeed} mph ${windArr[3]}`;
     e.target.classList.add("active");
-    const celsius = document.querySelector(".celsius");
     celsius.classList.remove("active");
   } else if (e.target.className === "celsius") {
     temp.textContent = `${Math.round((temp.textContent - 32) / 1.8)}`;
@@ -167,7 +171,6 @@ const changeSystem = e => {
     windSpeed = (windSpeed * 1.609344).toFixed(2);
     wind.textContent = `Wind: ${windSpeed} km/h ${windArr[3]}`;
     e.target.classList.add("active");
-    const fahrenheit = document.querySelector(".fahrenheit");
     fahrenheit.classList.remove("active");
   }
 };
