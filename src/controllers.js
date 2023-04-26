@@ -1,7 +1,5 @@
 const getAPIData = async searchedCity => {
   const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=1&appid=09b3804c0eabfc48a079f18eaebc53b9`;
-  const url2 =
-    "https://api.openweathermap.org/geo/1.0/direct?q=london&limit=1&appid=09b3804c0eabfc48a079f18eaebc53b9";
   const response = await fetch(geoUrl);
   const data = await response.json();
 

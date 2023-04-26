@@ -3,27 +3,42 @@ import { getAPIData } from "./controllers";
 const getCity = e => {
   if (e === "london") {
     const requiredData = getAPIData("london");
-    requiredData.then(data => {
-      console.log(data);
-      createDaily(data);
-      loadInterface(data);
-    });
+    requiredData
+      .then(data => {
+        console.log(data);
+        createDaily(data);
+        loadInterface(data);
+      })
+      .catch(err => {
+        const cityName = document.querySelector(".city-name");
+        cityName.style.fontFamily = "Roboto";
+        cityName.textContent = "Something went wrong.";
+        throw new Error(err);
+      });
   } else {
     e.preventDefault();
     const searchbar = document.querySelector("#searchbar");
     const searchedCity = searchbar.value;
     console.log(searchedCity);
     const requiredData = getAPIData(searchedCity);
-    requiredData.then(data => {
-      console.log(data);
-      loadInterface(data);
-      loadDaily(data);
-    });
+    requiredData
+      .then(data => {
+        console.log(data);
+        loadInterface(data);
+        loadDaily(data);
+      })
+      .catch(err => {
+        const cityName = document.querySelector(".city-name");
+        cityName.style.fontFamily = "Roboto";
+        cityName.textContent = "Could not find city.";
+        throw new Error(err);
+      });
   }
 };
 
 const loadInterface = data => {
   const cityName = document.querySelector(".city-name");
+  cityName.style.fontFamily = "Pacifico";
   cityName.textContent = data.city.toUpperCase();
   const currentIcon = document.querySelector(".current-icon");
   currentIcon.src = `https://openweathermap.org/img/wn/${data.icon}@2x.png`;
