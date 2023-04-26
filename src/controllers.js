@@ -11,8 +11,6 @@ const getAPIData = async searchedCity => {
   const weatherResponse = await fetch(weatherUrl);
   const weatherData = await weatherResponse.json();
 
-  console.log(weatherData);
-
   const requiredData = processData(name, weatherData);
   return requiredData;
 };
@@ -77,7 +75,6 @@ const processData = (name, weatherData) => {
     cloud,
     dailyData,
   };
-  console.log(requiredData);
   return requiredData;
 };
 

@@ -6,7 +6,6 @@ const getCity = e => {
     loading(true, true);
     requiredData
       .then(data => {
-        console.log(data);
         loading(false, true);
         createDaily(data);
         loadInterface(data);
@@ -21,12 +20,10 @@ const getCity = e => {
     e.preventDefault();
     const searchbar = document.querySelector("#searchbar");
     const searchedCity = searchbar.value;
-    console.log(searchedCity);
     const requiredData = getAPIData(searchedCity);
     loading(true);
     requiredData
       .then(data => {
-        console.log(data);
         loading(false);
         loadInterface(data);
         loadDaily(data);
