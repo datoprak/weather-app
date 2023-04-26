@@ -3,9 +3,11 @@ import { getAPIData } from "./controllers";
 const getCity = e => {
   if (e === "london") {
     const requiredData = getAPIData("london");
+    loading(true, true);
     requiredData
       .then(data => {
         console.log(data);
+        loading(false, true);
         createDaily(data);
         loadInterface(data);
       })
@@ -21,9 +23,11 @@ const getCity = e => {
     const searchedCity = searchbar.value;
     console.log(searchedCity);
     const requiredData = getAPIData(searchedCity);
+    loading(true);
     requiredData
       .then(data => {
         console.log(data);
+        loading(false);
         loadInterface(data);
         loadDaily(data);
       })
@@ -241,6 +245,17 @@ const changeColors = data => {
       }, 10);
     });
     body.style.backgroundImage = "url('images/mist.jpg')";
+  }
+};
+
+const loading = (state, first = false) => {
+  const modal = document.querySelector(".loading-modal");
+  const form = document.querySelector("form");
+  const tempContainer = document.querySelector(".temp-container");
+  modal.style.display = state ? "flex" : "none";
+  if (first) {
+    form.style.display = state ? "none" : "flex";
+    tempContainer.style.display = state ? "none" : "flex";
   }
 };
 
