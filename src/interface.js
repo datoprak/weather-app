@@ -61,7 +61,7 @@ const loadInterface = data => {
   } else if (data.windDirection >= 315) {
     wind.textContent = `Wind: ${data.windSpeed} km/h ↖`;
   }
-  changeColors(data.temp);
+  changeColors(data.main);
 };
 
 const createDaily = data => {
@@ -146,7 +146,6 @@ const changeSystem = e => {
       t.textContent = `${Math.round(f)}°`;
     });
     nightlyTemp.forEach(t => {
-      console.log(t.textContent);
       let f = t.textContent.slice(0, -1) * 1.8 + 32;
       t.textContent = `${Math.round(f)}°`;
     });
@@ -176,55 +175,57 @@ const changeSystem = e => {
 };
 
 const changeColors = data => {
-  const input = document.querySelector("#searchbar");
-  const button = document.querySelector(".search-button");
   const body = document.querySelector("body");
   const dailyBox = document.querySelectorAll(".daily-box");
 
-  if (data <= 5) {
-    input.style.backgroundColor = "#567189";
-    button.style.backgroundColor = "#567189";
+  if (data === "Drizzle" || data === "Rain") {
     dailyBox.forEach(box => {
-      box.style.backgroundColor = "#567189";
       box.style.animation = "none";
       setTimeout(() => {
         box.style.animation = "";
       }, 10);
     });
-    body.style.backgroundColor = "#FAD6A5";
-  } else if (data <= 10 && data > 5) {
-    input.style.backgroundColor = "#FFD8A9";
-    button.style.backgroundColor = "#FFD8A9";
+    body.style.backgroundImage = "url(images/rain.jpg)";
+  } else if (data === "Clouds") {
     dailyBox.forEach(box => {
-      box.style.backgroundColor = "#FFD8A9";
       box.style.animation = "none";
       setTimeout(() => {
         box.style.animation = "";
       }, 10);
     });
-    body.style.backgroundColor = "#E38B29";
-  } else if (data <= 15 && data > 10) {
-    input.style.backgroundColor = "#F7A4A4";
-    button.style.backgroundColor = "#F7A4A4";
+    body.style.backgroundImage = "url(images/cloud.jpg)";
+  } else if (data === "Thunderstorm") {
     dailyBox.forEach(box => {
-      box.style.backgroundColor = "#F7A4A4";
       box.style.animation = "none";
       setTimeout(() => {
         box.style.animation = "";
       }, 10);
     });
-    body.style.backgroundColor = "#B6E2A1";
-  } else if (data > 15) {
-    input.style.backgroundColor = "#9CFF2E";
-    button.style.backgroundColor = "#9CFF2E";
+    body.style.backgroundImage = "url(images/thunderstorm.jpg)";
+  } else if (data === "Clear") {
     dailyBox.forEach(box => {
-      box.style.backgroundColor = "#9CFF2E";
       box.style.animation = "none";
       setTimeout(() => {
         box.style.animation = "";
       }, 10);
     });
-    body.style.backgroundColor = "#2192FF";
+    body.style.backgroundImage = "url('images/sun.jpg')";
+  } else if (data === "Snow") {
+    dailyBox.forEach(box => {
+      box.style.animation = "none";
+      setTimeout(() => {
+        box.style.animation = "";
+      }, 10);
+    });
+    body.style.backgroundImage = "url('images/snow.jpg')";
+  } else {
+    dailyBox.forEach(box => {
+      box.style.animation = "none";
+      setTimeout(() => {
+        box.style.animation = "";
+      }, 10);
+    });
+    body.style.backgroundImage = "url('images/mist.jpg')";
   }
 };
 
